@@ -1,0 +1,50 @@
+.wrapper{
+    display: grid;
+    align-items: center;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.281);
+    padding: 10px;
+    width: 300px;
+}
+
+.wrapper > div{
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: rgba(128, 128, 128, 0.281);
+    width: 100%;
+    height: 50px;
+}
+
+.listHead{
+    font-size: 20px;
+}
+
+.listItemContainer{
+}
+
+.listItem{
+  /* margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); */
+  
+  display: grid;
+  grid-template-columns: 20% 80%;
+  font-size: 17px;
+  text-align: left;
+  align-items:flex-start;
+}
+
+.itemButton{
+    
+}
+
+.itemTextField{
+    
+}
+
+.itemTextFieldChk{
+    color: rgba(128, 128, 128, 0.562);
+}
