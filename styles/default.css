@@ -30,11 +30,13 @@
   top: 50%;
   transform: translateY(-50%); */
   
-  display: grid;
-  grid-template-columns: 20% 80%;
+  /* display: grid;
+  grid-template-columns: 20% 80%; */
+  
+  display: flex;
+  align-items: center;
   font-size: 17px;
   text-align: left;
-  align-items:flex-start;
 }
 
 .itemButton{
@@ -42,7 +44,8 @@
 }
 
 .itemTextField{
-    
+    text-align: center;
+    width: 80%;
 }
 
 .itemTextFieldChk{
