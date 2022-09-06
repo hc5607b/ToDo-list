@@ -10,9 +10,7 @@ window.onload = function(){
     // addItem("test3");
 
     loadSession();
-    console.log(list.length);
-    console.log(list);
-    if(list != null && list.length != 0){printAllItems();console.log("LIST IS");}else{setEmptyElement(true);console.log("LIST NULL");}
+    if(list != null && list.length != 0){printAllItems();}else{setEmptyElement(true);}
     
 }
 
@@ -23,7 +21,6 @@ let listItemPlaceholder;
 var listParent;
 
 function setEmptyElement(set){
-    console.log(set);
     if(set){
         listParent.insertAdjacentHTML('beforeend', listItemEmptyElement.outerHTML);
         emptyIsSet = true;
@@ -78,20 +75,19 @@ function addItem(itemName, save=true, chk=false){
     let newItem = listItemPlaceholder;
     newItem.querySelector('.itemTextField').textContent = itemName;
     listParent.insertAdjacentHTML('beforeend', newItem.outerHTML)
-    
     if(chk){
         listParent.lastChild.getElementsByClassName('itemTextField')[0].classList.add("itemTextFieldChk");
         listParent.lastChild.getElementsByClassName('itemButton')[0].checked =true;
-    }
-
-    if(list != null && emptyIsSet){
-        setEmptyElement(false);
     }
 
     if(save){
         if(list == null){list = [{name:itemName, check:chk}]}
         else{list.push({name:itemName, check:chk});}
         saveSession();
+    }
+
+    if(list != null && emptyIsSet){
+        setEmptyElement(false);
     }
 }
 
@@ -107,10 +103,13 @@ function removeItem(itemName){
     }
 }
 
+function resetSessionStorage(){
+    sessionStorage.clear();
+}
+
 function saveSession(){
     if(list != null){
         sessionStorage.setItem("items", JSON.stringify(list));
-        console.log("session saved");
     }else{console.log("Save failed. List is null");}
 }
 
@@ -123,5 +122,13 @@ function printAllItems(){
     for (let i = 0; i < list.length; i++) {
         const element = list[i];
         addItem(element.name, false, element.check);
+    }
+}
+
+function enter(sender){
+    if(event.key === 'Enter'){
+        addItem(sender.value);
+        sender.value = "";
+        sender.blur();
     }
 }
