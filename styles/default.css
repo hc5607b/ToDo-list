@@ -51,3 +51,10 @@
 .itemTextFieldChk{
     color: rgba(128, 128, 128, 0.562);
 }
+
+.itemEmpty{
+  /* display: flex; */
+  align-items: center;
+  font-size: 17px;
+  text-align: center;
+}
