@@ -5,10 +5,6 @@ window.onload = function(){
     listItemPlaceholder.remove();
     listParent = document.getElementsByClassName("wrapper")[0];
 
-    // addItem("test");
-    // addItem("test2");
-    // addItem("test3");
-
     loadSession();
     if(list != null && list.length != 0){printAllItems();}else{setEmptyElement(true);}
     
@@ -35,8 +31,6 @@ function checkChange(sender){
     if(list == null){console.log("List is null"); return;}
     let id = getElementIdByName(sender.parentNode.querySelector('.itemTextField').textContent);
 
-    
-    console.log(list[id].check);
     if(list[id].check){
         sender.parentNode.getElementsByClassName('itemTextField')[0].classList.remove("itemTextFieldChk");
     }else{
@@ -60,6 +54,10 @@ function getDOMElementByName(name){
     return null;
 }
 
+function getItemNameByElementChild(child){
+    return child.parentNode.querySelector('.itemTextField').textContent;
+}
+
 function getItemIdByName(name){
     for (let i = 0; i < list.length; i++) {
         if(list[i].name == name)return i;
@@ -67,11 +65,15 @@ function getItemIdByName(name){
     return -1;
 }
 
-function addSamples(){
-
+function itemExits(itemName){
+    for (let i = 0; i < list.length; i++) {
+        if(list[i].name == itemName){return true;}
+    }
+    return false;
 }
 
 function addItem(itemName, save=true, chk=false){
+    if(itemExits(itemName) && save){console.log("Dublicate, not added");return;}
     let newItem = listItemPlaceholder;
     newItem.querySelector('.itemTextField').textContent = itemName;
     listParent.insertAdjacentHTML('beforeend', newItem.outerHTML)
@@ -91,6 +93,9 @@ function addItem(itemName, save=true, chk=false){
     }
 }
 
+function removeItemDelegate(sender){
+    removeItem(getItemNameByElementChild(sender));
+}
 
 function removeItem(itemName){
     var item = getDOMElementByName(itemName).parentNode;
@@ -129,6 +134,6 @@ function enter(sender){
     if(event.key === 'Enter'){
         addItem(sender.value);
         sender.value = "";
-        sender.blur();
+        // sender.blur();
     }
 }
