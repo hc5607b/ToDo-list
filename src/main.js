@@ -130,9 +130,10 @@ function addItem(itemName, save=true, chk=false){
     }
 }
 
-// function removeItemDelegate(sender){
-//     removeItem(getItemNameByElementChild(sender));
-// }
+// removes item, by sender (unknown element)
+function removeItemDelegate(sender){
+    removeItem(getItemNameByElementChild(sender));
+}
 
 // removes given item
 function removeItem(itemName){
