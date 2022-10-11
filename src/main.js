@@ -1,11 +1,11 @@
 window.onload = function(){
-    // Load all needed elements to variables
+    // load all needed elements to variables & removes placeholders instaces
     listItemEmptyElement = document.getElementsByClassName("itemEmpty")[0];
     listItemEmptyElement.remove();
     listItemPlaceholder = document.getElementsByClassName("listItem")[0];
     listItemPlaceholder.remove();
     listParent = document.getElementsByClassName("wrapper")[0];
-
+ 
     // check if session exits and load data to list
     loadSession();
 
@@ -16,10 +16,10 @@ window.onload = function(){
 
 // Initiating variables
 var emptyIsSet = false;
-var list = [];
-let listItemEmptyElement;
-let listItemPlaceholder;
-var listParent;
+var list = []; // item list
+let listItemEmptyElement; // empty indicator
+let listItemPlaceholder; // item instace
+var listParent; // parent of list
 
 // set or remove empty element. Shows if theres no data yet to user
 function setEmptyElement(set){
@@ -33,7 +33,7 @@ function setEmptyElement(set){
     }
 }
 
-// Change item checked state
+// change item checked state
 function checkChange(sender){
     // check if list is added. Just for error handling
     if(list == null){console.log("List is null"); return;}
