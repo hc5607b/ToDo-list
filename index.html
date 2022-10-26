@@ -2,15 +2,32 @@
 <html>
     <header>
         <title>To Do</title>
-
         <script src="src/main.js"></script>
-
         <link rel="stylesheet" href="styles/default.css">
     </header>
     <body>
         <div class="wrapper">
             <div class="listHead">
-                <input type="text" placeholder="New item" class="" onkeydown="enter(this)">
+                <input class="textInput" type="text" placeholder="New item" class="" onkeydown="enter(this)">
+            </div>
+            <div class="listInfo">
+                <div class="listInfoChild">
+                    Items left
+                </div>
+                <div></div>
+                <div class="listInfoChild">
+                    <input class="listInfoButton" type="button" value="All" onclick="show(1)">
+                </div>
+                <div class="listInfoChild">
+                    <input class="listInfoButton" type="button" value="Active" onclick="show(2)">
+                </div>
+                <div class="listInfoChild">
+                    <input class="listInfoButton" type="button" value="Completed" onclick="show(3)">
+                </div>
+                <div></div>
+                <div class="listInfoChild">
+                    <input class="listInfoButton" type="button" value="Clear completed" onclick="clearCompleted()">
+                </div>
             </div>
             <div class="listItem">
                 <input type="checkbox" class="itemButton" onchange="checkChange(this)">
@@ -19,8 +36,6 @@
                 <input type="button" class="itemRemoveButton" onclick="removeItemDelegate(this)">
             </div>
             <div class="itemEmpty">Nothing here yet</div>
-            <div class="listHead">
-            </div>
         </div>
     </body>
 </html>

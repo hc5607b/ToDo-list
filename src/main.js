@@ -20,6 +20,7 @@ var list = []; // item list
 let listItemEmptyElement; // empty indicator
 let listItemPlaceholder; // item instace
 var listParent; // parent of list
+var showState = 1;
 
 // set or remove empty element. Shows if theres no data yet to user
 function setEmptyElement(set){
@@ -184,11 +185,75 @@ function printAllItems(){
     }
 }
 
+function validateInput(input){
+    if(input.length < 1){return false;}
+
+    return true;
+}
+
 // for input enter event
 function enter(sender){
     if(event.key === 'Enter'){
-        addItem(sender.value);
-        sender.value = "";
-        // sender.blur();
+        if(validateInput(sender.value)){
+            document.getElementsByClassName("textInput")[0].classList.remove("inputNotValid");
+            addItem(sender.value);
+            sender.value = "";
+        }
+        else{
+            document.getElementsByClassName("textInput")[0].classList.add("inputNotValid");
+        }
+    }
+}
+
+// updates item visibility to match current state pointed by variable showState 
+function updateShowState(){
+    if(list == null){return}
+    // get item id by name
+    elems = listParent.getElementsByClassName("listItem");
+    for(let i = 0; i < elems.length; i++){
+        curEl = elems[i].getElementsByClassName("itemTextField")[0];
+        item = list[getItemIdByName(curEl.textContent)];
+        curEl.parentNode.classList.remove("itemHide");
+        switch(showState){
+            case 2:
+                if(item.check){
+                    curEl.parentNode.classList.add("itemHide");
+                }
+                break;
+            case 3:
+                if(!item.check){
+                    curEl.parentNode.classList.add("itemHide");
+                }
+                break;
+        }
+    }
+}
+
+// Changes what is shown
+function show(group){
+    // 1=All, 2=Active, 3=Completed
+    if(showState == group){return;}
+    showState = group;
+    updateShowState();
+}
+
+// clears all completed items
+function clearCompleted(){
+    if(list == null){return;}
+
+    // create list which I can store items I want to delete. Items cannot be removed here because it will change the list in for loop
+    var toDelete = [];
+    for(let i = 0; i < list.length; i++){
+        if(list[i].check){
+            toDelete.push(list[i].name);
+        }
+    }
+
+    // check if theres items to remove
+    if(toDelete == null){return;}
+
+    // removes marked items
+    for(let i = 0; i < toDelete.length; i++){
+        removeItem(toDelete[i]);
     }
 }

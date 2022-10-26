@@ -6,7 +6,7 @@
     border-width: 1px;
     border-color: rgba(128, 128, 128, 0.281);
     padding: 10px;
-    width: 300px;
+    width: 400px;
 }
 
 .wrapper > div{
@@ -19,6 +19,46 @@
 
 .listHead{
     font-size: 20px;
+}
+
+
+.listInfo{
+    height: 25px !important;
+    font-size: 13px;
+    display: grid;
+    padding-top: 5px;
+    grid-template-columns: 60px 44px 30px 70px 80px 15px 50px;
+}
+
+.listInfoChild{
+    display: inline-grid;
+    /* border-style: solid; */
+}
+
+.listInfoButton{
+    background-color: white;
+    font-size: 12px;
+    height: 20px;
+    border-style: none;
+}
+.listInfoButton:hover{
+    /* background-color: rgb(220, 220, 220); */
+    /* transition: .2s; */
+    border: solid;
+    border-width: 1px;
+    border-color: rgb(230, 230, 230);
+    border-radius: 3px;
+}
+.listInfoButton:focus{
+    /* background-color: rgb(220, 220, 220); */
+    /* transition: .2s; */
+    border: solid;
+    border-width: 1px;
+    border-color: rgb(230, 230, 230);
+    border-radius: 3px;
+}
+.listInfoButton:active{
+    background-color: rgb(200, 200, 200);
 }
 
 .listFooter{
@@ -76,21 +116,28 @@
   text-align: center;
 }
 
-input[type=text]{
+.itemHide{
+    display: none;
+}
+
+.textInput{
     border-style: none;
     font-size: 25px;
     width: 95%;
 }
 
-input[type=text]:focus{
+.textInput:focus{
     outline: none;
     border-style: solid;
     border-color: rgb(187, 187, 187);
     border-radius: 8px;
 }
 
-.textInput::selection{
+.inputNotValid{
+    border-color: red !important;
+    transition: .2s;
 }
+
 
 /*
 
