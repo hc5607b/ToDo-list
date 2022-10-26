@@ -10,13 +10,13 @@ window.onload = function(){
     loadSession();
 
     // if there was data in session, print all items
-    if(list != null && list.length != 0){printAllItems();}else{setEmptyElement(true);}
+    if(Items != null && Items.length != 0){printAllItems();}else{setEmptyElement(true);}
     
 }
 
 // Initiating variables
 var emptyIsSet = false;
-var list = []; // item list
+var Items = []; // item list
 let listItemEmptyElement; // empty indicator
 let listItemPlaceholder; // item instace
 var listParent; // parent of list
@@ -34,23 +34,32 @@ function setEmptyElement(set){
     }
 }
 
+// updates items left value
+function updateCheckdAmount(){
+    if(Items == null){return;}
+    document.getElementsByClassName("listInfoChild")[0].textContent = Items.filter(x => x.check == false).length + " items left"
+}
+
 // change item checked state
 function checkChange(sender){
     // check if list is added. Just for error handling
-    if(list == null){console.log("List is null"); return;}
+    if(Items == null){console.log("List is null"); return;}
 
     // get sender element id
     let id = getElementIdByName(sender.parentNode.querySelector('.itemTextField').textContent);
 
     // check if item is checked and add or remove css element to indicate this state
-    if(list[id].check){
+    if(Items[id].check){
         sender.parentNode.getElementsByClassName('itemTextField')[0].classList.remove("itemTextFieldChk");
     }else{
         sender.parentNode.getElementsByClassName('itemTextField')[0].classList.add("itemTextFieldChk");
     }
 
     // update object list value for js
-    list[id].check = !list[id].check;
+    Items[id].check = !Items[id].check;
+
+    // updates items left value
+    updateCheckdAmount();
 
     // save changes
     saveSession();
@@ -58,9 +67,9 @@ function checkChange(sender){
 
 // returns element id by name.
 function getElementIdByName(name){
-    if(list == null){return -1;}
-    for (let i = 0; i < list.length; i++) {
-        if(list[i].name == name){return i;}
+    if(Items == null){return -1;}
+    for (let i = 0; i < Items.length; i++) {
+        if(Items[i].name == name){return i;}
     }
     return -1;
 }
@@ -82,18 +91,18 @@ function getItemNameByElementChild(child){
 
 // returns item id by item name
 function getItemIdByName(name){
-    if(list==null){return -1;}
-    for (let i = 0; i < list.length; i++) {
-        if(list[i].name == name)return i;
+    if(Items==null){return -1;}
+    for (let i = 0; i < Items.length; i++) {
+        if(Items[i].name == name)return i;
     }
     return -1;
 }
 
 // returns true if item exits and false if not
 function itemExits(itemName){
-    if(list == null){return false;}
-    for (let i = 0; i < list.length; i++) {
-        if(list[i].name == itemName){return true;}
+    if(Items == null){return false;}
+    for (let i = 0; i < Items.length; i++) {
+        if(Items[i].name == itemName){return true;}
     }
     return false;
 }
@@ -120,13 +129,15 @@ function addItem(itemName, save=true, chk=false){
 
     // saves item if save argument is true
     if(save){
-        if(list == null){list = [{name:itemName, check:chk}]}
-        else{list.push({name:itemName, check:chk});}
+        if(Items == null){Items = [{name:itemName, check:chk}]}
+        else{Items.push({name:itemName, check:chk});}
         saveSession();
     }
 
+    updateCheckdAmount();
+
     // if theres no items yet, deletes no items indicator
-    if(list != null && emptyIsSet){
+    if(Items != null && emptyIsSet){
         setEmptyElement(false);
     }
 }
@@ -134,6 +145,7 @@ function addItem(itemName, save=true, chk=false){
 // removes item, by sender (unknown element)
 function removeItemDelegate(sender){
     removeItem(getItemNameByElementChild(sender));
+    updateCheckdAmount();
 }
 
 // removes given item
@@ -148,13 +160,13 @@ function removeItem(itemName){
     item.remove();
 
     // removes item for list
-    list.splice(getItemIdByName(itemName), 1);
+    Items.splice(getItemIdByName(itemName), 1);
 
     // saves changes
     saveSession();
 
     // checks if theres no items left, add indicator
-    if(list == null || list.length == 0 && !emptyIsSet){
+    if(Items == null || Items.length == 0 && !emptyIsSet){
         setEmptyElement(true);
     }
 }
@@ -166,27 +178,27 @@ function resetSessionStorage(){
 
 // saves session
 function saveSession(){
-    if(list != null){
-        sessionStorage.setItem("items", JSON.stringify(list));
+    if(Items != null){
+        sessionStorage.setItem("items", JSON.stringify(Items));
     }else{console.log("Save failed. List is null");}
 }
 
 // load session to list
 function loadSession(){
-    list = JSON.parse(sessionStorage.getItem("items"));
+    Items = JSON.parse(sessionStorage.getItem("items"));
     console.log("session loaded");
 }
 
 // prints all list items
 function printAllItems(){
-    for (let i = 0; i < list.length; i++) {
-        const element = list[i];
+    for (let i = 0; i < Items.length; i++) {
+        const element = Items[i];
         addItem(element.name, false, element.check);
     }
 }
 
 function validateInput(input){
-    if(input.length < 1){return false;}
+    if(input.length < 2){return false;}
 
     return true;
 }
@@ -207,12 +219,12 @@ function enter(sender){
 
 // updates item visibility to match current state pointed by variable showState 
 function updateShowState(){
-    if(list == null){return}
+    if(Items == null){return}
     // get item id by name
     elems = listParent.getElementsByClassName("listItem");
     for(let i = 0; i < elems.length; i++){
         curEl = elems[i].getElementsByClassName("itemTextField")[0];
-        item = list[getItemIdByName(curEl.textContent)];
+        item = Items[getItemIdByName(curEl.textContent)];
         curEl.parentNode.classList.remove("itemHide");
         switch(showState){
             case 2:
@@ -239,13 +251,13 @@ function show(group){
 
 // clears all completed items
 function clearCompleted(){
-    if(list == null){return;}
+    if(Items == null){return;}
 
     // create list which I can store items I want to delete. Items cannot be removed here because it will change the list in for loop
     var toDelete = [];
-    for(let i = 0; i < list.length; i++){
-        if(list[i].check){
-            toDelete.push(list[i].name);
+    for(let i = 0; i < Items.length; i++){
+        if(Items[i].check){
+            toDelete.push(Items[i].name);
         }
     }
 
