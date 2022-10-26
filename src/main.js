@@ -9,18 +9,20 @@ window.onload = function(){
     // check if session exits and load data to list
     loadSession();
 
+    updateCheckdAmount();
+
     // if there was data in session, print all items
     if(Items != null && Items.length != 0){printAllItems();}else{setEmptyElement(true);}
     
 }
 
 // Initiating variables
-var emptyIsSet = false;
+var emptyIsSet = false; // is list empty and element set to notify that
 var Items = []; // item list
 let listItemEmptyElement; // empty indicator
 let listItemPlaceholder; // item instace
 var listParent; // parent of list
-var showState = 1;
+var showState = 1; // what is shown in list
 
 // set or remove empty element. Shows if theres no data yet to user
 function setEmptyElement(set){
@@ -36,8 +38,11 @@ function setEmptyElement(set){
 
 // updates items left value
 function updateCheckdAmount(){
-    if(Items == null){return;}
-    document.getElementsByClassName("listInfoChild")[0].textContent = Items.filter(x => x.check == false).length + " items left"
+    if(Items == null){
+        document.getElementsByClassName("listInfoChild")[0].textContent = "0 items left";
+        return;
+    }
+    document.getElementsByClassName("listInfoChild")[0].textContent = Items.filter(x => x.check == false).length + " items left";
 }
 
 // change item checked state
@@ -207,11 +212,16 @@ function validateInput(input){
 function enter(sender){
     if(event.key === 'Enter'){
         if(validateInput(sender.value)){
+
+            // removes invalid text style from text input field
             document.getElementsByClassName("textInput")[0].classList.remove("inputNotValid");
+
+            // adds item and clears input field
             addItem(sender.value);
             sender.value = "";
         }
         else{
+            // if input is not valid, notify user by changing input filed border color
             document.getElementsByClassName("textInput")[0].classList.add("inputNotValid");
         }
     }
@@ -219,8 +229,7 @@ function enter(sender){
 
 // updates item visibility to match current state pointed by variable showState 
 function updateShowState(){
-    if(Items == null){return}
-    // get item id by name
+    if(Items == null){return;}
     elems = listParent.getElementsByClassName("listItem");
     for(let i = 0; i < elems.length; i++){
         curEl = elems[i].getElementsByClassName("itemTextField")[0];
