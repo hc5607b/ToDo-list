@@ -1,3 +1,2 @@
 # ToDo-list
-
-Todo list muodossa js
+This is school project where js DOM is in focus.
