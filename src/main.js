@@ -66,6 +66,7 @@ function getItemIdByName(name){
 }
 
 function itemExits(itemName){
+    if(list == null){return false;}
     for (let i = 0; i < list.length; i++) {
         if(list[i].name == itemName){return true;}
     }
